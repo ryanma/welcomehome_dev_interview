@@ -13,14 +13,14 @@ information.
 
 ## Guidance and Expectations
 
-- Develop the exercise within a Rails app
-- Focus on the business/domain logic (no controllers/views necessary)
-- Develop tests covering the key behavior
 - This exercise is designed to take about 1 hour. If you are taking
   substantially longer, feel free to stop. We'll still have plenty to talk
   about!
+- Develop the exercise within a Rails app using Test-Driven Development
+- Focus on the business/domain logic (no controllers/views necessary)
 - Share your solution via GitHub, or send over a tarball of your git repo
-- Be ready to discuss your solution and exercise key behavior via rails console
+- Be ready to discuss your solution, exercise key behavior via rails console,
+  and pair on the code
 
 ## User Story
 
