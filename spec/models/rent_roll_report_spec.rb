@@ -10,6 +10,7 @@ require 'rails_helper'
 # - [x] Resident status (current or future)
 # - [x] Move in date
 # - [x] Move out date
+# - [] future residents for currently occupied unit
 #
 # A rent roll is run for a given date. It includes current and future
 # residents, as well as vacant units.
@@ -20,17 +21,21 @@ require 'rails_helper'
 RSpec.describe RentRollReport do
   let(:date) { Date.parse '2020-01-01' }
   let!(:unit_1) do
-    Unit.create(number: 1,
-                floorplan: 'Kiyoshi Island',
-                occupant_name: 'Aang',
-                move_in_date: Date.parse('2019-11-01'),
-                move_out_date: Date.parse('2020-01-31'),)
+    Unit.create(
+      number: 1,
+      floorplan: 'Kiyoshi Island',
+      occupant_name: 'Aang',
+      move_in_date: Date.parse('2019-11-01'),
+      move_out_date: Date.parse('2020-01-31'),
+    )
   end
   let!(:unit_2) do
-    Unit.create(number: 2,
-                floorplan: 'Chin Village',
-                occupant_name: 'Katara',
-                move_in_date: '2020-03-01',)
+    Unit.create(
+      number: 2,
+      floorplan: 'Chin Village',
+      occupant_name: 'Katara',
+      move_in_date: '2020-03-01',
+    )
   end
   let(:report) { RentRollReport.new(date).report }
 
@@ -66,5 +71,18 @@ RSpec.describe RentRollReport do
   it 'includes move out dates' do
     expect(report.first[5]).to eq Date.parse('2020-01-31')
     expect(report[1][5]).to be_nil
+  end
+
+  xit 'shows future residents for currently occupied units' do
+    future_unit = Unit.create(
+      number: 1,
+      floorplan: 'Kiyoshi Island',
+      occupant_name: 'Korra',
+      move_in_date: Date.parse('2021-11-01'),
+      move_out_date: Date.parse('2024-01-31'),
+    )
+
+    expect(report[1][0]).to eq future_unit.number
+    expect(report[1][3]).to eq "future"
   end
 end

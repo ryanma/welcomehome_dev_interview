@@ -1,13 +1,13 @@
 require 'rails_helper'
 
 RSpec.describe Unit do
-  let(:unit) do
+  let!(:unit) do
     Unit.create(
       number: 1,
       floorplan: 'Omashu',
       occupant_name: 'Aang',
       move_in_date: Date.parse('2020-06-01'),
-      move_out_date: Date.parse('2020-01-01'),
+      move_out_date: Date.parse('2021-01-01'),
     )
   end
   let(:unit_2) do
@@ -49,6 +49,18 @@ RSpec.describe Unit do
   end
 
   it 'knows the unit move out date' do
-    expect(unit.move_out_date).to eq Date.parse('2020-01-01')
+    expect(unit.move_out_date).to eq Date.parse('2021-01-01')
+  end
+
+  xit 'can have multiple residents if they do not overlap dates' do
+    future_unit = Unit.create(
+      number: 1,
+      floorplan: "Omashu",
+      occupant_name: "Korra",
+      move_in_date: Date.parse('2022-06-01'),
+      move_out_date: Date.parse('2023-01-01'),
+    )
+
+    expect(unit.occupants.count).to eq 2
   end
 end

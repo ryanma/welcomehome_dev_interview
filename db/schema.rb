@@ -11,6 +11,14 @@
 # It's strongly recommended that you check this file into your version control system.
 
 ActiveRecord::Schema[7.2].define(version: 2025_03_12_112313) do
+  create_table "occupants", force: :cascade do |t|
+    t.integer "unit_id"
+    t.string "name", null: false
+    t.date "move_in_date"
+    t.date "move_out_date"
+    t.index ["unit_id"], name: "index_occupants_on_unit_id"
+  end
+
   create_table "units", force: :cascade do |t|
     t.integer "number", null: false
     t.string "floorplan", null: false
