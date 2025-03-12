@@ -1,7 +1,8 @@
 require "rails_helper"
 
 RSpec.describe Unit do
-  let!(:unit) { Unit.create(number: 1, floorplan: "Omashu", occupant_name: "Aang") }
+  let(:unit) { Unit.create(number: 1, floorplan: "Omashu", occupant_name: "Aang", move_in_date: Date.parse("2020-06-01")) }
+  let(:unit_2) { Unit.create(number: 2, floorplan: "Wan Shi Tong's Library", move_in_date: Date.parse("2020-07-01")) }
 
   it 'has a required unit number' do
     expect(unit.valid?).to be true
@@ -26,5 +27,10 @@ RSpec.describe Unit do
 
     unit2 = Unit.create(number: 2, floorplan: "Ba Sing Se")
     expect(unit2.vacant?).to be true
+  end
+
+  it 'reports it move in date' do
+    expect(unit.move_in_date).to eq Date.parse("2020-06-01")
+    expect(unit_2.move_in_date).to eq Date.parse("2020-07-01")
   end
 end

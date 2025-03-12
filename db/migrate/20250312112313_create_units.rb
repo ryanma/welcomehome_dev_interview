@@ -4,6 +4,7 @@ class CreateUnits < ActiveRecord::Migration[7.2]
       t.integer :number, null: false
       t.string :floorplan, null: false
       t.string :occupant_name
+      t.date :move_in_date
       t.timestamps
     end
   end

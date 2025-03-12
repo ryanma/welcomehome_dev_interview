@@ -15,6 +15,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_03_12_112313) do
     t.integer "number", null: false
     t.string "floorplan", null: false
     t.string "occupant_name"
+    t.date "move_in_date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

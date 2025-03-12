@@ -11,7 +11,17 @@ class RentRollReport
 
   def report
     units.map do |unit|
-        [ unit.number, unit.floorplan, unit.occupant_name ]
+      if unit.occupant_name
+        occupant_status = unit.move_in_date <= date ? "current" : "future"
+      end
+
+      [
+        unit.number,
+        unit.floorplan,
+        unit.occupant_name,
+        occupant_status,
+        unit.move_in_date
+      ]
     end
   end
 end
