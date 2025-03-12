@@ -20,7 +20,8 @@ class RentRollReport
         unit.floorplan,
         unit.occupant_name,
         occupant_status,
-        unit.move_in_date
+        unit.move_in_date,
+        unit.move_out_date,
       ]
     end
   end
