@@ -6,7 +6,7 @@ require "rails_helper"
 #
 # - [x] Unit number
 # - [x] Floor Plan name
-# - [] Resident name
+# - [x] Resident name
 # - [] Resident status (current or future)
 # - [] Move in date
 # - [] Move out date
@@ -19,7 +19,7 @@ require "rails_helper"
 
 RSpec.describe RentRollReport do
   let(:date) { Date.parse "2020-01-01" }
-  let!(:unit_1) { Unit.create(number: 1, floorplan: "Bay View") }
+  let!(:unit_1) { Unit.create(number: 1, floorplan: "Bay View", occupant_name: "Aang") }
   let(:report) { RentRollReport.new(date).report }
 
   it 'is run for a given date' do
@@ -40,7 +40,7 @@ RSpec.describe RentRollReport do
     expect(report.first[1]).to eq "Bay View"
   end
 
-  it 'provides a resident name' do
-  expect(report.first[2]).to eq "Resident Name"
+  it 'provides an occupant name' do
+    expect(report.first[2]).to eq "Aang"
   end
 end

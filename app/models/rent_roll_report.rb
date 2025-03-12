@@ -11,7 +11,7 @@ class RentRollReport
 
   def report
     units.map do |unit|
-      [ unit.number, unit.floorplan, unit.resident_name ]
+        [ unit.number, unit.floorplan, unit.occupant_name ]
     end
   end
 end

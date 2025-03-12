@@ -1,7 +1,7 @@
 require "rails_helper"
 
 RSpec.describe Unit do
-  let!(:unit) { Unit.create(number: 1, floorplan: "Omashu") }
+  let!(:unit) { Unit.create(number: 1, floorplan: "Omashu", occupant_name: "Aang") }
 
   it 'has a required unit number' do
     expect(unit.valid?).to be true
@@ -17,7 +17,14 @@ RSpec.describe Unit do
     expect(Unit.new(number: 2).valid?).to be false
   end
 
-  it 'has a resident name' do
-    expect(unit.resident_name).to eq "Aang"
+  it 'has an occupant name' do
+    expect(unit.occupant_name).to eq "Aang"
+  end
+
+  it 'knows if the unit is vacant' do
+    expect(unit.vacant?).to be false
+
+    unit2 = Unit.create(number: 2, floorplan: "Ba Sing Se")
+    expect(unit2.vacant?).to be true
   end
 end
