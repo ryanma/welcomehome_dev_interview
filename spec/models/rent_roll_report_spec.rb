@@ -24,17 +24,25 @@ RSpec.describe RentRollReport do
     Unit.create(
       number: 1,
       floorplan: 'Kiyoshi Island',
-      occupant_name: 'Aang',
-      move_in_date: Date.parse('2019-11-01'),
-      move_out_date: Date.parse('2020-01-31'),
+      occupants: [
+        Occupant.new(
+          name: 'Aang',
+          move_in_date: Date.parse('2019-11-01'),
+          move_out_date: Date.parse('2020-01-31'),
+        ),
+      ]
     )
   end
   let!(:unit_2) do
     Unit.create(
       number: 2,
       floorplan: 'Chin Village',
-      occupant_name: 'Katara',
-      move_in_date: '2020-03-01',
+      occupants: [
+        Occupant.new(
+          name: 'Katara',
+          move_in_date: '2020-03-01',
+        ),
+      ]
     )
   end
   let(:report) { RentRollReport.new(date).report }
@@ -55,34 +63,32 @@ RSpec.describe RentRollReport do
     expect(report.first[1]).to eq 'Kiyoshi Island'
   end
 
-  it 'provides an occupant name' do
-    expect(report.first[2]).to eq 'Aang'
+  fit 'provides the names of occupants' do
+    expect(report.first[2][0][:name]).to eq 'Aang'
   end
 
-  it 'indicates if this is a future or current resident' do
-    expect(report.first[3]).to eq 'current'
-    expect(report[1][3]).to eq 'future'
+  it 'provides status of residents' do
+    expect(report.first[2][0][:status]).to eq 'current'
+    expect(report[1][2][0][:status]).to eq 'future'
   end
 
-  it 'includes move in dates' do
-    expect(report.first[4]).to eq Date.parse('2019-11-01')
+  it 'includes move in dates of occupants' do
+    expect(report.first[2][0][:move_in_date]).to eq Date.parse('2019-11-01')
   end
 
   it 'includes move out dates' do
-    expect(report.first[5]).to eq Date.parse('2020-01-31')
-    expect(report[1][5]).to be_nil
+    expect(report.first[2][0][:move_out_date]).to eq Date.parse('2020-01-31')
+    expect(report[1][2][0][:move_out_date]).to be_nil
   end
 
-  xit 'shows future residents for currently occupied units' do
-    future_unit = Unit.create(
-      number: 1,
-      floorplan: 'Kiyoshi Island',
-      occupant_name: 'Korra',
+  it 'shows future residents for currently occupied units' do
+     Occupant.create(
+      unit: unit_1,
+      name: 'Korra',
       move_in_date: Date.parse('2021-11-01'),
       move_out_date: Date.parse('2024-01-31'),
     )
 
-    expect(report[1][0]).to eq future_unit.number
-    expect(report[1][3]).to eq "future"
+    expect(report[0][2].size).to eq 2
   end
 end
