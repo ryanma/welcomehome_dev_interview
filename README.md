@@ -1,5 +1,28 @@
 # WelcomeHome Developer Interview
 
+## Ryan's assessment Notes
+
+- This was significantly harder than I originally expected. Strictly following
+TDD took a lot more focus, though I could feel myself picking up on it as I
+worked through more code.
+- Despite that, I think the TDD approach saved me some extra work. I read the
+description and looked at the data and expected a model looking like:
+  `unit <> occupancy <> resident`. The distinction between occupancy and
+resident definitely isn't necessary for the scope of this assessment.
+- There is plent of room for refactoring in this code after taking
+substantially over one hour to finish the assessment
+- The import process is definitely poorly designed and could do with some
+improvement, but that was the last part built and didn't need much work
+
+## Instuctions to operate
+
+- Check out the repository
+- run `bundle install`
+- run `bundle exec rails console`
+- in the console, run `Import.new.process` to import the CSV data
+- run `RentRollReport.new(Date.parse(...)).report` to see the rent roll report
+- run `RentRollReport.new(Date.parse(...)).key_statistics` to see the important stats
+
 WelcomeHome is a CRM designed for sales teams at senior living communities.
 
 ## Exercise Overview
