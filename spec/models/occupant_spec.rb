@@ -30,4 +30,30 @@ RSpec.describe Occupant do
   it 'has a move out date' do
     expect(toph.move_out_date).to eq Date.parse("2021-01-01")
   end
+
+  describe '.current_and_future spec' do
+    it 'only returns current and future occupants' do
+      date = Date.parse("2020-01-02")
+      aang = Occupant.create(
+        unit: beifong_estate,
+        name: "Aang",
+        move_in_date: Date.parse("2021-01-01"),
+      )
+
+      Occupant.create(
+        unit: beifong_estate,
+        name: "Kiyoshi",
+        move_in_date: Date.parse("2018-01-01"),
+        move_out_date: Date.parse("2019-01-01"),
+      )
+
+      Occupant.create(
+        unit: Unit.new(number: 2, floorplan: "Southern Water Tribe"),
+        name: "Katara",
+        move_in_date: Date.parse("2021-01-01"),
+      )
+
+      expect(Occupant.current_and_future(beifong_estate, date)).to eq [ toph, aang ]
+    end
+  end
 end

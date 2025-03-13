@@ -15,11 +15,10 @@ RSpec.describe Unit do
       move_out_date: Date.parse('2021-01-01'),
     )
   end
-  let(:unit_2) do
+  let!(:unit_2) do
     Unit.create(
       number: 2,
       floorplan: "Wan Shi Tong's Library",
-      move_in_date: Date.parse('2020-07-01'),
     )
   end
 
@@ -57,5 +56,11 @@ RSpec.describe Unit do
     )
 
     expect(unit.occupants.count).to eq 2
+  end
+
+  describe '.occupied scope' do
+    it 'queries for currently occupied units' do
+      expect(Unit.occupied(Date.parse("2020-10-31"))).to eq [ unit ]
+    end
   end
 end

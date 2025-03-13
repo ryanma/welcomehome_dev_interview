@@ -14,8 +14,13 @@ class RentRollReport
       [
         unit.number,
         unit.floorplan,
-        unit.occupants.map do |occ|
-          status = occ.move_in_date <= date ? "current" : "future"
+        Occupant.current_and_future(unit, date).map do |occ|
+          if occ.move_in_date && occ.move_in_date <= date
+            status = "current"
+          else
+            status = "future"
+          end
+
           {
             name: occ.name,
             status: status,
@@ -25,5 +30,15 @@ class RentRollReport
         end,
       ]
     end
+  end
+
+  def key_statistics
+    occupied_ids = Unit.occupied(date).pluck(:id)
+
+    {
+      number_leased_units: Unit.where.associated(:occupants).count,
+      number_occupied_units: occupied_ids.count,
+      number_vacant_units: Unit.where("id not in (?)", occupied_ids).count,
+    }
   end
 end
